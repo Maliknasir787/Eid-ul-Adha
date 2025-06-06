@@ -55,7 +55,13 @@
 
     h2 {
       font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .timer {
+      font-size: 1.2rem;
       margin-bottom: 2rem;
+      color: #ddd;
     }
 
     .cards {
@@ -203,6 +209,7 @@
   <div class="container">
     <h1>Eid-ul-Adha Mubarak</h1>
     <h2 id="username">Dear Friend</h2>
+    <div class="timer" id="countdown">⏳ Loading countdown...</div>
 
     <div class="cards">
       <div class="card">
@@ -230,7 +237,7 @@
   </div>
 
   <script>
-    // Get user's name from URL
+    // Get name from URL
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('name') || 'Friend';
     const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
@@ -247,7 +254,7 @@
       starsContainer.appendChild(star);
     }
 
-    // Music toggle
+    // Toggle music
     const bgMusic = document.getElementById("bgMusic");
     let muted = false;
     function toggleMusic() {
@@ -256,7 +263,7 @@
       document.querySelector('.music-btn').innerText = muted ? "🔈 Unmute" : "🔊 Mute";
     }
 
-    // Toggle sender visibility
+    // Show/Hide sender
     function toggleSender() {
       const senderText = document.getElementById("senderText");
       const toggleBtn = document.getElementById("toggleSenderBtn");
@@ -269,6 +276,30 @@
         toggleBtn.innerText = "🙈 Hide Sender";
       }
     }
+
+    // Countdown Timer to Eid
+    const eidDate = new Date("2025-06-07T00:00:00");
+    const countdownElement = document.getElementById("countdown");
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = eidDate - now;
+
+      if (diff <= 0) {
+        countdownElement.innerText = "🎉 Eid Mubarak! 🎊";
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdownElement.innerText = `⏳ Eid begins in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
   </script>
 </body>
 </html>
