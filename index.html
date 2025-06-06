@@ -5,101 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Eid Mubarak</title>
   <style>
+    :root {
+      --main-bg: #121212;
+      --accent: #ffd700;
+      --card-bg: rgba(255,255,255,0.1);
+    }
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+      background: url('https://images.unsplash.com/photo-1590555460932-e15737c4e6a9?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
       background-size: cover;
+      color: #fff;
       height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     .overlay {
-      position: absolute;
+      position: fixed;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
-      backdrop-filter: blur(2px);
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(3px);
       z-index: 1;
     }
 
     .container {
       position: relative;
       z-index: 2;
-      text-align: center;
-      padding: 2rem;
+      padding: 3rem 1rem;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      height: 100vh;
+      text-align: center;
     }
 
     h1 {
-      font-size: 3.5rem;
-      margin-bottom: 1rem;
-      animation: fadeInDown 2s ease-out;
-      color: #FFD700;
-      text-shadow: 2px 2px 5px #000;
+      font-size: 3rem;
+      color: var(--accent);
+      text-shadow: 0 0 10px var(--accent);
     }
 
     h2 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-bottom: 2rem;
-      animation: fadeInUp 2s ease-out;
-      color: #fff;
     }
 
-    .by {
-      margin-top: 2rem;
-      font-size: 1.3rem;
-      font-style: italic;
-      animation: fadeIn 3s ease-in-out;
-      color: #00ffff;
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 1.5rem;
+      color: #fff;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 20px rgba(255,255,255,0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .card p {
+      font-size: 1rem;
+      line-height: 1.6;
     }
 
     .moon {
       position: absolute;
-      top: 40px;
+      top: 30px;
       right: 50px;
-      width: 80px;
-      height: 80px;
-      background: radial-gradient(circle at 30% 30%, #fff, #ddd);
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 30% 30%, #fff, #ccc);
       border-radius: 50%;
       box-shadow: 0 0 15px #fff;
-      z-index: 3;
-      animation: moonGlow 3s infinite alternate;
+      animation: pulseMoon 3s infinite alternate;
     }
 
-    @keyframes moonGlow {
+    @keyframes pulseMoon {
       from { box-shadow: 0 0 10px #fff; }
       to { box-shadow: 0 0 25px #fff; }
     }
 
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
     .stars {
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: fixed;
       width: 100%;
       height: 100%;
       pointer-events: none;
@@ -120,101 +133,112 @@
       50% { opacity: 1; }
     }
 
-    .btn {
-      margin-top: 1.5rem;
-      padding: 12px 25px;
-      font-size: 1rem;
-      background-color: #ffd700;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      color: #000;
-      font-weight: bold;
-      transition: background 0.3s;
-      box-shadow: 0 0 10px rgba(255,255,255,0.3);
-    }
-
-    .btn:hover {
-      background-color: #fff200;
-    }
-
-    .toast {
+    .music-btn {
       position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.8);
-      padding: 15px 25px;
-      border-radius: 25px;
-      color: #fff;
-      opacity: 0;
-      transition: opacity 0.5s ease-in-out;
-      z-index: 10;
-    }
-
-    .toast.show {
-      opacity: 1;
-    }
-
-    .firework {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 100;
-    }
-
-    .audio-control {
-      position: absolute;
       top: 20px;
       left: 20px;
-      background: rgba(255, 255, 255, 0.7);
-      padding: 8px 12px;
-      border-radius: 20px;
-      font-weight: bold;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 30px;
       cursor: pointer;
-      z-index: 10;
+      z-index: 5;
+      font-weight: bold;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .show-sender {
+      margin-top: 2.5rem;
+    }
+
+    .sender-btn {
+      background: var(--accent);
+      color: #000;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255,215,0,0.3);
+    }
+
+    .sender-btn:hover {
+      background: #fffacd;
+      box-shadow: 0 8px 25px rgba(255,215,0,0.5);
+    }
+
+    .sender-name {
+      display: none;
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      color: var(--accent);
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 600px) {
-      h1 { font-size: 2.2rem; }
-      h2 { font-size: 1.5rem; }
-      .moon { width: 50px; height: 50px; top: 20px; right: 20px; }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.4rem; }
     }
   </style>
 </head>
 <body>
-
   <div class="overlay"></div>
-
   <div class="moon"></div>
-
   <div class="stars" id="stars"></div>
 
-  <div class="audio-control" onclick="toggleAudio()">🔊 Mute</div>
+  <div class="music-btn" onclick="toggleMusic()">🔊 Mute</div>
 
-  <div class="container">
-    <h1 id="greeting">Eid Mubarak</h1>
-    <h2 id="name">Friend</h2>
-    <button class="btn" onclick="sendDua()">Send Dua 💌</button>
-    <div class="by">— by Hacker</div>
-  </div>
-
-  <div class="toast" id="toast">Dua sent successfully! 🌙</div>
-
-  <audio id="bgMusic" loop autoplay>
-    <source src="https://cdn.pixabay.com/download/audio/2023/03/30/audio_4eec8bacc7.mp3?filename=ramadan-vibes-144043.mp3" type="audio/mpeg">
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/30/audio_4eec8bacc7.mp3?filename=ramadan-vibes-144043.mp3" type="audio/mp3">
   </audio>
 
-  <script>
-    // Get name from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const name = urlParams.get('name') || "Friend";
-    const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
-    document.getElementById("name").innerText = formattedName;
+  <div class="container">
+    <h1>Eid-ul-Adha Mubarak</h1>
+    <h2 id="username">Dear Friend</h2>
 
-    // Star field
+    <div class="cards">
+      <div class="card">
+        <h3>🌙 Blessed Eid</h3>
+        <p>May your sacrifices be appreciated, and your prayers be answered this Eid-ul-Adha. 🌸</p>
+      </div>
+      <div class="card">
+        <h3>🕌 Spiritual Joy</h3>
+        <p>May Allah bless you and your family with happiness, peace, and prosperity. 🤲</p>
+      </div>
+      <div class="card">
+        <h3>🎉 Celebrate Faith</h3>
+        <p>Celebrate this Eid with joy, togetherness, and deep reflection of your faith. ✨</p>
+      </div>
+      <div class="card">
+        <h3>💖 Heartfelt Wishes</h3>
+        <p>Wishing you and your loved ones a truly beautiful and memorable Eid-ul-Adha. 🌺</p>
+      </div>
+    </div>
+
+    <div class="show-sender">
+      <button class="sender-btn" id="toggleSenderBtn" onclick="toggleSender()">✨ Show Sender</button>
+      <div class="sender-name" id="senderText">Eid Mubarak by Nasir Hacker 🙂 🦄</div>
+    </div>
+  </div>
+
+  <script>
+    // Get user's name from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name') || 'Friend';
+    const formattedName = name.charAt(0).toUpperCase() + name.slice(1);
+    document.getElementById("username").innerText = `Dear ${formattedName}`;
+
+    // Stars
     const starsContainer = document.getElementById("stars");
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 100; i++) {
       const star = document.createElement("div");
       star.classList.add("star");
       star.style.top = Math.random() * 100 + "%";
@@ -223,53 +247,28 @@
       starsContainer.appendChild(star);
     }
 
-    // Toast Message
-    function sendDua() {
-      const toast = document.getElementById("toast");
-      toast.classList.add("show");
-      setTimeout(() => {
-        toast.classList.remove("show");
-      }, 3000);
+    // Music toggle
+    const bgMusic = document.getElementById("bgMusic");
+    let muted = false;
+    function toggleMusic() {
+      muted = !muted;
+      bgMusic.muted = muted;
+      document.querySelector('.music-btn').innerText = muted ? "🔈 Unmute" : "🔊 Mute";
     }
 
-    // Fireworks on click
-    document.body.addEventListener("click", (e) => {
-      for (let i = 0; i < 20; i++) {
-        const firework = document.createElement("div");
-        firework.className = "firework";
-        firework.style.left = e.clientX + "px";
-        firework.style.top = e.clientY + "px";
-        firework.style.width = firework.style.height = "5px";
-        firework.style.background = `hsl(${Math.random()*360}, 100%, 70%)`;
-        document.body.appendChild(firework);
+    // Toggle sender visibility
+    function toggleSender() {
+      const senderText = document.getElementById("senderText");
+      const toggleBtn = document.getElementById("toggleSenderBtn");
 
-        const angle = Math.random() * 2 * Math.PI;
-        const radius = Math.random() * 100 + 50;
-
-        firework.animate([
-          { transform: "translate(0,0)", opacity: 1 },
-          {
-            transform: `translate(${Math.cos(angle) * radius}px, ${Math.sin(angle) * radius}px)`,
-            opacity: 0
-          }
-        ], {
-          duration: 800 + Math.random()*500,
-          easing: "ease-out"
-        });
-
-        setTimeout(() => firework.remove(), 1000);
+      if (senderText.style.display === "block") {
+        senderText.style.display = "none";
+        toggleBtn.innerText = "✨ Show Sender";
+      } else {
+        senderText.style.display = "block";
+        toggleBtn.innerText = "🙈 Hide Sender";
       }
-    });
-
-    // Music control
-    const music = document.getElementById("bgMusic");
-    let isMuted = false;
-    function toggleAudio() {
-      isMuted = !isMuted;
-      music.muted = isMuted;
-      document.querySelector(".audio-control").textContent = isMuted ? "🔈 Unmute" : "🔊 Mute";
     }
   </script>
 </body>
-  </html>
-  
+</html>
